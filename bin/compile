@@ -4,7 +4,12 @@ set -eu
 
 METABASE_DIR="$1/target/uberjar"
 METABASE_JAR="$METABASE_DIR/metabase.jar"
-METABASE_URL="https://downloads.metabase.com/enterprise/v1.46.5/metabase.jar"
+
+# This is the standard url format for downloads:
+# METABASE_URL="https://downloads.metabase.com/enterprise/v1.46.5/metabase.jar"
+
+# Special url for critical patch update:
+METABASE_URL="https://downloads.metabase.com/445472DA-A1B2-466E-BEEE-3B0E479A5279/v1.46.6.1-latest-patch/metabase.jar"
 
 BUIILDPACK_BIN="$PWD/bin"
 APP_BIN="$1/bin"
