@@ -10,10 +10,15 @@ METABASE_URL="https://downloads.metabase.com/enterprise/v1.52.11/metabase.jar"
 BUIILDPACK_BIN="$PWD/bin"
 APP_BIN="$1/bin"
 BACKUP_SCRIPT="pg_backup_to_s3"
+DEBUG_LOG_FILE="debug-log4j2.xml"
 
 echo "Copying pg_backup_to_s3 to $APP_BIN"
 cp "$BUIILDPACK_BIN/$BACKUP_SCRIPT" "$APP_BIN/$BACKUP_SCRIPT"
 chmod +x "$APP_BIN/$BACKUP_SCRIPT"
+
+echo "Copying debug-log4j2.xml to $APP_BIN"
+cp "$BUIILDPACK_BIN/$DEBUG_LOG_FILE" "$APP_BIN/$DEBUG_LOG_FILE"
+chmod +x "$APP_BIN/$DEBUG_LOG_FILE"
 
 mkdir -p $METABASE_DIR
 
