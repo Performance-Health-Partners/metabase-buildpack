@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Fetch the list of record ids for databases that have been added to Metabase
+# There is a default database named "Internal Metabase Database" that we will ignore.
+database_ids=$(psql -d $DATABASE_URL -t -c "SELECT id FROM metabase_database WHERE name != 'Internal Metabase Database';")
+
+# For each database, make a request to the Metabase API
+# to discard all saved field values.
+# https://reports.performancehealth.app/api/docs/#tag/apidatabase/post/api/database/{id}/discard_values
+#
+# Requires two environment/config variables:
+# - MB_API_KEY_DISCARD_VALUES
+# - MB_SITE_URL
+for database_id in $database_ids
+do
+  curl \
+    -X POST \
+    -H "x-api-key: $MB_API_KEY_DISCARD_VALUES" \
+    $MB_SITE_URL/api/database/$database_id/discard_values
+done
