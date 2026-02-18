@@ -4,7 +4,7 @@ set -eu
 
 METABASE_DIR="$1/target/uberjar"
 METABASE_JAR="$METABASE_DIR/metabase.jar"
-METABASE_URL="https://downloads.metabase.com/enterprise/v1.54.6/metabase.jar"
+METABASE_URL="https://downloads.metabase.com/enterprise/v1.55.19/metabase.jar"
 
 
 BUIILDPACK_BIN="$PWD/bin"
