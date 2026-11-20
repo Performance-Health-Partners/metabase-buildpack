@@ -1,10 +1,10 @@
+#!/bin/bash
+
 # Set the script to fail fast if there
 # is an error or a missing variable
 
 set -eu
 set -o pipefail
-
-#!/bin/sh
 
 # Create tmp directory if does not exist
 mkdir -p tmp
@@ -24,6 +24,13 @@ BACKUP_FILE_NAME="backup-$(date '+%Y-%m-%d_%H.%M').gpg"
 
 # Upload the file to S3 using AWS CLI
 aws s3 cp tmp/pg_backup.dump.gpg "s3://${PG_BACKUP_S3_BUCKET_NAME}/${BACKUP_FILE_NAME}"
+
+# Ping the Honeybadger check-in, which alerts if no ping arrives on
+# schedule. Skipped if BACKUP_CHECKIN_URL is unset. A failed ping is
+# ignored because the backup is already uploaded.
+if [ -n "${BACKUP_CHECKIN_URL:-}" ]; then
+  curl -fsS --retry 3 --max-time 10 "$BACKUP_CHECKIN_URL" > /dev/null || true
+fi
 
 # Remove the encrypted backup file
 rm tmp/pg_backup.dump.gpg
